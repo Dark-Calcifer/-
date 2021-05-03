@@ -3,15 +3,16 @@
 #pragma warning(disable:4996)
 #endif  // для работы классических функций ("НЕБЕЗОПАСНЫХ"!_s)
 
-using namespace std;
-
 #include<iostream>
 #include"Storage.h"
 
+using namespace std;
+
 int main()
 {
-	Storage Temp(9);
-	Temp.ShowName();
+	Storage storage;
+	storage.setname("qweqw");
+	storage.ShowName();
 
 	return 0;
 }
