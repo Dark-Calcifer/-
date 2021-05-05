@@ -37,22 +37,16 @@ public:
 	void setincrease(int* increase);
 	void setincrease(const int increase);
 
-	char* getname();
-	char* getcategory();
-	char* getdata();
-	int getquantity();
-	int getprice();
-	int getincrease();
+	char* getname() { return this->name; };
+	char* getcategory() { return this->category; };
+	char* getdata() { return this->data; };
+	int getquantity() { return *(this->quantity); };
+	int getprice() { return *(this->price); };
+	int getincrease() { return *(this->increase); };
 
 
 	~Storage(); // Деструктор
 
-
-
-	void ShowName()
-	{
-		cout << name << endl;
-	}
 
 	void ShowInfo()
 	{
@@ -61,7 +55,7 @@ public:
 		cout << "Дата поступления: " << data << endl;
 		cout << "Кол-во: " << *quantity << endl;
 		cout << "Цена: " << *price << endl;
-		cout << "Надбавка: " << *increase << endl;
+		cout << "Надбавка: " << *increase << endl << endl;
 	}
 };
 

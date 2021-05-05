@@ -114,37 +114,6 @@ void Storage::setincrease(const int increase)
 }
 
 
-char* Storage::getname()
-{
-	return this->name;
-}
-
-char* Storage::getcategory()
-{
-	return this->category;
-}
-
-char* Storage::getdata()
-{
-	return this->data;
-}
-
-int Storage::getquantity()
-{
-	return *(this->quantity);
-}
-
-int Storage::getprice()
-{
-	return *(this->price);
-}
-
-int Storage::getincrease()
-{
-	return *(this->increase);
-}
-
-
 Storage::~Storage()
 {
 	delete[] name;
