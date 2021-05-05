@@ -8,13 +8,16 @@ class Storage
 private:
 	char* name; // Наименование 
 	char* category; // Категория 
-	char* quantity; // Кол-во 
 	char* data; // Дата поступления
-	char* price; // Цена
-	char* increase; // Надбавка
+	int* quantity; // Кол-во 
+	int* price; // Цена
+	int* increase; // Надбавка
 
 public:
 	Storage(); // Конструктор по умолчанию
+	Storage(char* name, char* category, char* data, int quantity, int price, int increase); // Конструктор с параметрами
+	Storage(const char name[], const char category[], const char data[], const int quantity, const int prise, const int increase); // Конструктор с параметрами
+	Storage(const Storage& Object); // Конструктор копирования
 	
 	void setname(char* name);
 	void setname(const char name[]);
@@ -22,17 +25,24 @@ public:
 	void setcategory(char* category);
 	void setcategory(const char category[]);
 
-	void setquantity(char* quantity);
-	void setquantity(const char quantity[]);
-
 	void setdata(char* data);
 	void setdata(const char data[]);
 
-	void setprice(char* price);
-	void setprice(const char price[]);
+	void setquantity(int* quantity);
+	void setquantity(const int quantity);
 
-	void setincrease(char* increase);
-	void setincrease(const char increase[]);
+	void setprice(int* price);
+	void setprice(const int price);
+
+	void setincrease(int* increase);
+	void setincrease(const int increase);
+
+	char* getname();
+	char* getcategory();
+	char* getdata();
+	int getquantity();
+	int getprice();
+	int getincrease();
 
 
 	~Storage(); // Деструктор
@@ -42,6 +52,16 @@ public:
 	void ShowName()
 	{
 		cout << name << endl;
+	}
+
+	void ShowInfo()
+	{
+		cout << "Имя: " << name << endl;
+		cout << "Категория: " << category << endl;
+		cout << "Дата поступления: " << data << endl;
+		cout << "Кол-во: " << *quantity << endl;
+		cout << "Цена: " << *price << endl;
+		cout << "Надбавка: " << *increase << endl;
 	}
 };
 
