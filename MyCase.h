@@ -27,7 +27,6 @@ public:
 	{
 		arrSize++;
 		T* temp = new T[this->arrSize];
-
 		for (int i = 0; i < this->arrSize; i++)
 		{
 			if (i != this->arrSize - 1)
@@ -39,6 +38,18 @@ public:
 				temp[i] = data;
 				break;
 			}
+		}
+		delete[] this->arr;
+		this->arr = temp;
+	}
+
+	void pop_back()
+	{
+		arrSize--;
+		T* temp = new T[this->arrSize];
+		for (int i = 0; i < arrSize; i++)
+		{
+			temp[i] = this->arr[i];
 		}
 		delete[] this->arr;
 		this->arr = temp;

@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include "Storage.h"
 #include "MyCase.h"
+#include <vector>
 
 using namespace std;
 
@@ -17,14 +18,37 @@ int main()
 	SetConsoleOutputCP(1251);
 	
 	MyCase<Storage*> MC;
-	for (int i = 0; i < 1; i++)
+	//vector<Storage*> MC;
+	int choose;
+	bool a = true;
+	int count = 0;
+	while (a)
 	{
-		Storage storage("1", "2", "3", 4, 5, 6);
-		MC.push_back(&storage);
-		storage.checkdestr = false;
-		MC[0]->ShowInfo();
+		cout << "choose: " << endl;
+		cin >> choose;
+		switch (choose)
+		{
+		case 1:
+		{
+			Storage* storage = new Storage("1", "2", "3", 4, 5, count);
+			MC.push_back(storage);
+			count++;
+			break;
+		}
+		case 2:
+		{
+			a = false;
+			break;
+		}
+		default:
+			break;
+		}
 	}
-	MC[0]->ShowInfo();
+	//MC.pop_back();
+	for (int i = 0; i < 3; i++)
+	{
+		MC[i]->ShowInfo();
+	}
 
 
 
