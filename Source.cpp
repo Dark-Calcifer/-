@@ -5,8 +5,8 @@
 
 #include<iostream>
 #include <Windows.h>
-#include"Storage.h"
-#include "Case.h"
+#include "Storage.h"
+#include "MyCase.h"
 
 using namespace std;
 
@@ -17,10 +17,11 @@ int main()
 	SetConsoleOutputCP(1251);
 	
 	MyCase<Storage*> MC;
-	Storage storage("1", "2", "3", 4, 5, 6);
 	for (int i = 0; i < 1; i++)
 	{
+		Storage storage("1", "2", "3", 4, 5, 6);
 		MC.push_back(&storage);
+		storage.checkdestr = false;
 		MC[0]->ShowInfo();
 	}
 	MC[0]->ShowInfo();

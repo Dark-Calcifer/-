@@ -16,6 +16,10 @@ public:
 	}
 	~MyCase()
 	{
+		for (int i = 0; i < arrSize; i++)
+		{
+			arr[i]->~Storage();
+		}
 		delete[] this->arr;
 	}
 

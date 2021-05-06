@@ -116,11 +116,15 @@ void Storage::setincrease(const int increase)
 
 Storage::~Storage()
 {
-	delete[] name;
-	delete[] category;
-	delete[] quantity;
-	delete[] data;
-	delete[] price;
-	delete[] increase;
+	if (checkdestr)
+	{
+		delete[] name;
+		delete[] category;
+		delete[] quantity;
+		delete[] data;
+		delete[] price;
+		delete[] increase;
+	}
+	checkdestr = true;
 }
 

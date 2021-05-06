@@ -44,9 +44,9 @@ public:
 	int getprice() { return *(this->price); };
 	int getincrease() { return *(this->increase); };
 
+	bool checkdestr = true;
 
 	~Storage(); // Деструктор
-
 
 	void ShowInfo()
 	{
