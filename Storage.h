@@ -50,12 +50,12 @@ public:
 
 	void ShowInfo()
 	{
-		cout << "Имя: " << name << endl;
+		cout << "Наименование: " << name << endl;
 		cout << "Категория: " << category << endl;
 		cout << "Дата поступления: " << data << endl;
 		cout << "Кол-во: " << *quantity << endl;
 		cout << "Цена: " << *price << endl;
-		cout << "Надбавка: " << *increase << endl << endl;
+		cout << "Надбавка: " << *increase << endl;
 	}
 };
 

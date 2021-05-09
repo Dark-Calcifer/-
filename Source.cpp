@@ -21,11 +21,11 @@ int main()
 	int choose;
 	bool check = true;
 	bool check_pause = false;
-	int count = rand();
 	while (check)
 	{
 		if (check_pause)
 		{
+			cout << endl;
 			system("pause");
 			system("cls");
 			check_pause = false;
@@ -41,20 +41,27 @@ int main()
 		{
 		case 1:
 		{
-			const char A[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
-			Storage* storage = new Storage("1", "2" , "3", 4, 5, count);
+			system("cls");
+			const char A1[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
+			const char A2[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
+			const char A3[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
+			int count1 = rand() % 100;
+			int count2 = rand() % 100;
+			int count3 = rand() % 100;
+			Storage* storage = new Storage(A1, A2, A3, count1, count2, count3);
 			MC.push_back(storage);
-			count = rand()%100;
 			cout << "Добавлено" << endl;
 			check_pause = true;
 			break;
 		}
 		case 2:
 		{
+			system("cls");
 			for (int i = 0; i < MC.size(); i++)
 			{
 				try
 				{
+					cout << "-------------------------------------------------------------------" << endl;
 					MC[i]->ShowInfo();
 				}
 				catch (exception ex)
@@ -64,17 +71,21 @@ int main()
 					break;
 				}
 			}
+			cout << "-------------------------------------------------------------------" << endl;
 			check_pause = true;
 			break;
 		}
 		case 3:
 		{
+			system("cls");
 			MC.pop_back();
 			cout << "Последний в списке товар был удален. " << endl;
 			check_pause = true;
+			break;
 		}
 		case 4:
 		{
+			system("cls");
 			cout << "1) По наименованию" << endl;
 			cout << "2) По категории" << endl;
 			cout << "3) По дате поступления" << endl;
