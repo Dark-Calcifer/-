@@ -18,30 +18,38 @@ int main()
 	SetConsoleOutputCP(1251);
 	srand(3);
 	MyCase<Storage*> MC;
-	//vector<Storage*> MC;
 	int choose;
-	bool a = true;
-	int count = 1;
-	while (a)
+	bool check = true;
+	bool check_pause = false;
+	int count = rand();
+	while (check)
 	{
-		cout << "choose: " << endl;
+		if (check_pause)
+		{
+			system("pause");
+			system("cls");
+			check_pause = false;
+		}
+		cout << "Количество товаров на складе: " << MC.size() << endl << endl;
+		cout << "1) Добавить товар " << endl;
+		cout << "2) Вывести информацию о товарах " << endl;
+		cout << "3) Удалить товар" << endl;
+		cout << "4) Отстортировать по параметрам " << endl;
+		cout << "0) Выход\n";
 		cin >> choose;
 		switch (choose)
 		{
 		case 1:
 		{
 			const char A[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
-			Storage* storage = new Storage("1", A , "3", 4, 5, count);
+			Storage* storage = new Storage("1", "2" , "3", 4, 5, count);
 			MC.push_back(storage);
-			count++;
+			count = rand()%100;
+			cout << "Добавлено" << endl;
+			check_pause = true;
 			break;
 		}
 		case 2:
-		{
-			MC.sort(2);
-			break;
-		}
-		case 3:
 		{
 			for (int i = 0; i < MC.size(); i++)
 			{
@@ -52,14 +60,37 @@ int main()
 				catch (exception ex)
 				{
 					cout << ex.what() << endl;
+					check_pause = true;
 					break;
 				}
 			}
+			check_pause = true;
+			break;
+		}
+		case 3:
+		{
+			MC.pop_back();
+			cout << "Последний в списке товар был удален. " << endl;
+			check_pause = true;
+		}
+		case 4:
+		{
+			cout << "1) По наименованию" << endl;
+			cout << "2) По категории" << endl;
+			cout << "3) По дате поступления" << endl;
+			cout << "4) По кол-ву" << endl;
+			cout << "5) По цене" << endl;
+			cout << "6) По надбавке" << endl;
+
+			int typeofsort = 0;
+			cin >> typeofsort;
+			MC.sort(typeofsort);
+			check_pause = true;
 			break;
 		}
 		case 0:
 		{
-			a = false;
+			check = false;
 			break;
 		}
 		default:
@@ -67,7 +98,6 @@ int main()
 		}
 	}
 	//MC.pop_back();
-
 
 	cout << endl << "return 0" << endl;
 	return 0;

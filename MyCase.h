@@ -15,7 +15,7 @@ public:
 	void pop_back();
 	T operator[] (int index);
 	int size() { return this->arrSize; }
-	
+
 	void sort(int choose);
 };
 
@@ -86,37 +86,22 @@ inline T MyCase<T>::operator[](int index)
 template<typename T>
 inline void MyCase<T>::sort(int choose)
 {
-	char* tempname1;
-	char* tempname2;
+	char* temp1;
+	char* temp2;
+	int temp3;
+	int temp4;
 	T temparr;
 	switch (choose)
 	{
 	case 1: // name
-		{
-			for (int i = 0; i < arrSize - 1; i++)
-			{
-				for (int j = i; j < arrSize - 1; j++)
-				{
-					tempname1 = (*arr[j]).getname();
-					tempname2 = (*arr[j + 1]).getname();
-					if (strcmp(tempname1, tempname2) > 0)
-					{
-						temparr = arr[j];
-						arr[j] = arr[j + 1];
-						arr[j + 1] = temparr;
-					}
-				}
-			}
-		}
-	case 2: // category
 	{
 		for (int i = 0; i < arrSize - 1; i++)
 		{
-			for (int j = i; j < arrSize - 1; j++)
+			for (int j = 0; j < arrSize - 1; j++)
 			{
-				tempname1 = (*arr[j]).getcategory();
-				tempname2 = (*arr[j + 1]).getcategory();
-				if (strcmp(tempname1, tempname2) > 0)
+				temp1 = (*arr[j]).getname();
+				temp2 = (*arr[j + 1]).getname();
+				if (strcmp(temp1, temp2) > 0) // strcmp если 1 > 2, возвращает число больше 0, если меньше - меньше нуля, если равно 0
 				{
 					temparr = arr[j];
 					arr[j] = arr[j + 1];
@@ -124,16 +109,35 @@ inline void MyCase<T>::sort(int choose)
 				}
 			}
 		}
+		break;
+	}
+	case 2: // category
+	{
+		for (int i = 0; i < arrSize - 1; i++)
+		{
+			for (int j = 0; j < arrSize - 1; j++)
+			{
+				temp1 = (*arr[j]).getcategory();
+				temp2 = (*arr[j + 1]).getcategory();
+				if (strcmp(temp1, temp2) > 0)
+				{
+					temparr = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temparr;
+				}
+			}
+		}
+		break;
 	}
 	case 3: // data
 	{
 		for (int i = 0; i < arrSize - 1; i++)
 		{
-			for (int j = i; j < arrSize - 1; j++)
+			for (int j = 0; j < arrSize - 1; j++)
 			{
-				tempname1 = (*arr[j]).getdata();
-				tempname2 = (*arr[j + 1]).getdata();
-				if (strcmp(tempname1, tempname2) > 0)
+				temp1 = (*arr[j]).getdata();
+				temp2 = (*arr[j + 1]).getdata();
+				if (strcmp(temp1, temp2) > 0)
 				{
 					temparr = arr[j];
 					arr[j] = arr[j + 1];
@@ -141,13 +145,74 @@ inline void MyCase<T>::sort(int choose)
 				}
 			}
 		}
+		break;
+	}
+	case 4: // quantity
+	{
+		int temp3 = 0;
+		int temp4 = 0;
+		for (int i = 0; i < arrSize - 1; i++)
+		{
+			for (int j = 0; j < arrSize - 1; j++)
+			{
+				temp3 = (*arr[j]).getquantity();
+				temp4 = (*arr[j + 1]).getquantity();
+				if (temp3 > temp4)
+				{
+					temparr = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temparr;
+				}
+			}
+		}
+		break;
+	}
+	case 5: // price
+	{
+		int temp3 = 0;
+		int temp4 = 0;
+		for (int i = 0; i < arrSize - 1; i++)
+		{
+			for (int j = 0; j < arrSize - 1; j++)
+			{
+				temp3 = (*arr[j]).getprice();
+				temp4 = (*arr[j + 1]).getprice();
+				if (temp3 > temp4)
+				{
+					temparr = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temparr;
+				}
+			}
+		}
+		break;
+	}
+	case 6: // increase
+	{
+		int temp3 = 0;
+		int temp4 = 0;
+		for (int i = 0; i < arrSize - 1; i++)
+		{
+			for (int j = 0; j < arrSize - 1; j++)
+			{
+				temp3 = (*arr[j]).getincrease();
+				temp4 = (*arr[j + 1]).getincrease();
+				if (temp3 > temp4)
+				{
+					temparr = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temparr;
+				}
+			}
+		}
+		break;
 	}
 	default:
 	{
 		cout << "(Sort): Введено неверное число. " << endl;
 		break;
 	}
-		break;
+	break;
 	}
 
 
