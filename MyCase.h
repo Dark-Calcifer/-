@@ -69,35 +69,43 @@ public:
 
 	int size() { return this->arrSize; }
 
-	void sort(const char type[]);
+	void sort(int choose);
 
 };
 
 template<typename T>
-inline void MyCase<T>::sort(const char type[])
+inline void MyCase<T>::sort(int choose)
 {
 	char* tempname1;
 	char* tempname2;
 	T temparr;
-	//for (int i1 = 0; i1 < arrSize - 1; i1++)
-	//{
-	//	tempname1 = (*arr[i1]).getname();
-	//	tempname2 = (*arr[i1 + 1]).getname();
-	//	if (tempname1[0] > tempname2[0])
-	//	{
-	//		temparr = arr[i1];
-	//		arr[i1] = arr[i1 + 1];
-	//		arr[i1 + 1] = temparr;
-	//	}
-	//}
-	if (type == "1")
+	switch (choose)
+	{
+	case 1: // name
+		{
+			for (int i = 0; i < arrSize - 1; i++)
+			{
+				for (int j = i; j < arrSize - 1; j++)
+				{
+					tempname1 = (*arr[j]).getname();
+					tempname2 = (*arr[j + 1]).getname();
+					if (strcmp(tempname1, tempname2) > 0)
+					{
+						temparr = arr[j];
+						arr[j] = arr[j + 1];
+						arr[j + 1] = temparr;
+					}
+				}
+			}
+		}
+	case 2: // category
 	{
 		for (int i = 0; i < arrSize - 1; i++)
 		{
 			for (int j = i; j < arrSize - 1; j++)
 			{
-				tempname1 = (*arr[j]).getname();
-				tempname2 = (*arr[j + 1]).getname();
+				tempname1 = (*arr[j]).getcategory();
+				tempname2 = (*arr[j + 1]).getcategory();
 				if (strcmp(tempname1, tempname2) > 0)
 				{
 					temparr = arr[j];
@@ -107,44 +115,32 @@ inline void MyCase<T>::sort(const char type[])
 			}
 		}
 	}
-
-
-
-}
-
-
-
-void sort_p(char** ptr, int size) 
-{
-	for (int i = 0; i < size - 1; i++) 
+	case 3: // data
 	{
-		for (int j = i + 1; j < size; j++) 
+		for (int i = 0; i < arrSize - 1; i++)
 		{
-			if (*ptr[j] < *ptr[i]) 
+			for (int j = i; j < arrSize - 1; j++)
 			{
-				char* tmp = ptr[i];
-				ptr[i] = ptr[j];
-				ptr[j] = tmp;
+				tempname1 = (*arr[j]).getdata();
+				tempname2 = (*arr[j + 1]).getdata();
+				if (strcmp(tempname1, tempname2) > 0)
+				{
+					temparr = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temparr;
+				}
 			}
 		}
 	}
+	default:
+	{
+		cout << "(Sort): ¬ведено неверное число. " << endl;
+		break;
+	}
+		break;
+	}
+
+
+
 }
 
-void selectionSort(int arr[], int arrSize)
-{
-	int j = 0;
-	int tmp = 0;
-	for (int i = 0; i < arrSize; i++)
-	{
-		j = i;
-		for (int k = i; k < arrSize; k++)
-		{
-			if (arr[j] > arr[k]) {
-				j = k;
-			}
-		}
-		tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-}

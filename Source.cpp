@@ -48,7 +48,7 @@ int main()
 		}
 		case 2:
 		{
-			MC.sort("1");
+			MC.sort(1);
 			break;
 		}
 		case 3:
