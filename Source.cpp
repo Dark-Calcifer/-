@@ -16,12 +16,22 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	
+	srand(3);
+
+	//int A[11] = { 12,125,54,4,698,979,654,65834,358, 124,126 };
+	//int q = 0;
+	//selectionSort(A, 11);
+	//while (q != 11)
+	//{
+	//	cout << A[q] << endl;
+	//	q++;
+	//}
+
 	MyCase<Storage*> MC;
 	//vector<Storage*> MC;
 	int choose;
 	bool a = true;
-	int count = 0;
+	int count = 1;
 	while (a)
 	{
 		cout << "choose: " << endl;
@@ -30,12 +40,34 @@ int main()
 		{
 		case 1:
 		{
-			Storage* storage = new Storage("1", "2", "3", 4, 5, count);
+			const char A[] = { char((rand() % 10) + 48),char((rand() % 10) + 48),char((rand() % 10) + 48), '\0' };
+			Storage* storage = new Storage(A, "2", "3", 4, 5, count);
 			MC.push_back(storage);
 			count++;
 			break;
 		}
 		case 2:
+		{
+			MC.sort("1");
+			break;
+		}
+		case 3:
+		{
+			for (int i = 0; i < MC.size(); i++)
+			{
+				try
+				{
+					MC[i]->ShowInfo();
+				}
+				catch (exception ex)
+				{
+					cout << ex.what() << endl;
+					break;
+				}
+			}
+			break;
+		}
+		case 0:
 		{
 			a = false;
 			break;
@@ -45,12 +77,19 @@ int main()
 		}
 	}
 	//MC.pop_back();
-	for (int i = 0; i < 3; i++)
-	{
-		MC[i]->ShowInfo();
-	}
 
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	try
+	//	{
+	//		MC[i]->ShowInfo();
+	//	}
+	//	catch(exception ex)
+	//	{
+	//		cout << ex.what() << endl;
+	//	}
+	//}
 
-
+	cout << endl << "return 0" << endl;
 	return 0;
 }
