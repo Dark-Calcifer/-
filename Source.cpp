@@ -11,9 +11,9 @@
 
 using namespace std;
 
+void PrintLine();
 bool IsItInt(char const* A1);
 bool true_cin(int& num);
-void PrintLine();
 
 int main()
 {
@@ -328,6 +328,10 @@ bool true_cin(int& num)
 	cin.getline(A1, 100);
 	try
 	{
+		if (A1[0] == '\0')
+		{
+			throw exception("Ничего не введено");
+		}
 		if (IsItInt(A1))
 		{
 			num = atoi(A1);
@@ -340,7 +344,9 @@ bool true_cin(int& num)
 	}
 	catch (exception ex)
 	{
+		PrintLine();
 		cout << ex.what() << endl;
+		PrintLine();
 		return false;
 	}
 }
