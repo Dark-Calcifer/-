@@ -66,6 +66,8 @@ int main()
 		}
 		case 2:
 		{
+			if (MC.size() != 0)
+			{
 			system("cls");
 			for (int i = 0; i < MC.size(); i++)
 			{
@@ -83,16 +85,36 @@ int main()
 			}
 			PrintLine();
 			check_pause = true;
+			}
+			else
+			{
+				system("cls");
+				PrintLine();
+				cout << "Пусто\n";
+				PrintLine();
+				check_pause = true;
+			}
 			break;
 		}
 		case 3:
 		{
-			system("cls");
-			MC.pop_back();
-			PrintLine();
-			cout << "Последний в списке товар был удален. " << endl;
-			PrintLine();
-			check_pause = true;
+			if (MC.size() != 0)
+			{
+				system("cls");
+				MC.pop_back();
+				PrintLine();
+				cout << "Последний в списке товар был удален. " << endl;
+				PrintLine();
+				check_pause = true;
+			}
+			else
+			{
+				system("cls");
+				PrintLine();
+				cout << "Нечего удалять\n";
+				PrintLine();
+				check_pause = true;
+			}
 			break;
 		}
 		case 4:
@@ -139,28 +161,121 @@ int main()
 		}
 		case 5:
 		{
-			bool checkbuy = true;
-			int buy_counter = 0;
-			int buy_ID[100];
-			int buy_quant[100];
-			int overallprice = 0;
-			Storage* Object;
-			while (checkbuy)
+			if (MC.size() != 0)
 			{
-				if (check_pause)
+				bool checkbuy = true;
+				int buy_counter = 0;
+				int buy_ID[100];
+				int buy_quant[100];
+				int overallprice = 0;
+				Storage* Object;
+				while (checkbuy)
 				{
-					cout << endl;
-					system("pause");
+					if (check_pause)
+					{
+						cout << endl;
+						system("pause");
+						system("cls");
+						check_pause = false;
+					}
 					system("cls");
-					check_pause = false;
-				}
-				system("cls");
-				for (int i = 0; i < MC.size(); i++)
-				{
+					for (int i = 0; i < MC.size(); i++)
+					{
+						try
+						{
+							PrintLine();
+							MC[i]->ShowInfo();
+						}
+						catch (exception ex)
+						{
+							cout << ex.what() << endl;
+							check_pause = true;
+							continue;
+						}
+					}
 					try
 					{
 						PrintLine();
-						MC[i]->ShowInfo();
+						cout << "Введите ID товара: " << endl;
+						//cin >> buy_ID[buy_counter];
+						if (!true_cin(buy_ID[buy_counter])) { check_pause = true; continue; }
+						Object = MC(buy_ID[buy_counter]);
+						system("cls");
+
+						cout << "Введите колличество (Всего: " << Object->getquantity() << " ):" << endl;
+						//cin >> buy_quant[buy_counter];
+						if (!true_cin(buy_quant[buy_counter])) { check_pause = true; continue; }
+
+						//проверка на кол-во
+						int tempquantity = Object->getquantity();
+						if (tempquantity >= buy_quant[buy_counter])
+						{
+							overallprice = overallprice + (Object->getprice() * buy_quant[buy_counter]);
+							system("cls");
+							cout << "Вы выбрали: " << Object->getname() << endl;;
+							cout << "Кол-во: " << buy_quant[buy_counter] << endl;;
+							cout << "Общая стоймость: " << overallprice << endl;
+							Object->setquantity(tempquantity - buy_quant[buy_counter]);
+						}
+						else
+						{
+							throw exception("Недостаточно товара на складе");
+						}
+					}
+					catch (exception ex)
+					{
+						PrintLine();
+						cout << ex.what() << endl;
+						buy_counter--;
+					}
+
+					buy_counter++;
+
+					if (checkbuy == true)
+					{
+						bool cc = true;
+						while (cc)
+						{
+							PrintLine();
+							cout << "Продолжить покупки? (Y/N)" << endl;
+							char buy_continue = '0';
+							cin >> buy_continue;
+							cin.ignore();
+							if (buy_continue == 'Y' || buy_continue == 'y')
+							{
+								cc = false;
+								break;
+							}
+							else if (buy_continue == 'N' || buy_continue == 'n')
+							{
+								cc = false;
+								checkbuy = false;
+								break;
+							}
+							else
+							{
+								cout << "Введено неверное значение " << endl;
+							}
+							continue;
+						}
+					}
+				}
+				if (checkbuy == false)
+				{
+					try
+					{
+						system("cls");
+						cout << "Итого: " << endl;
+						for (int i = 0; i < buy_counter; i++)
+						{
+							cout << "-------------------------------------------------------------------" << endl;
+							Object = MC(buy_ID[i]);
+							cout << "ID: " << Object->getID() << "\tНаименование: " << Object->getname() << "\t" << Object->getprice() << "x" << buy_quant[i] << endl;;
+						}
+						cout << "-------------------------------------------------------------------" << endl;
+						cout << "Общая сумма: " << overallprice << endl;
+						check_pause = true;
+						break;
 					}
 					catch (exception ex)
 					{
@@ -169,102 +284,21 @@ int main()
 						continue;
 					}
 				}
-				try
+				else
 				{
-					PrintLine();
-					cout << "Введите ID товара: " << endl;
-					//cin >> buy_ID[buy_counter];
-					if (!true_cin(buy_ID[buy_counter])) { check_pause = true; continue; }
-					Object = MC(buy_ID[buy_counter]);
-					system("cls");
-
-					cout << "Введите колличество (Всего: " << Object->getquantity() << " ):" << endl;
-					//cin >> buy_quant[buy_counter];
-					if (!true_cin(buy_quant[buy_counter])) { check_pause = true; continue; }
-
-					//проверка на кол-во
-					int tempquantity = Object->getquantity();
-					if (tempquantity >= buy_quant[buy_counter])
-					{
-						overallprice = overallprice + (Object->getprice() * buy_quant[buy_counter]);
-						system("cls");
-						cout << "Вы выбрали: " << Object->getname() << endl;;
-						cout << "Кол-во: " << buy_quant[buy_counter] << endl;;
-						cout << "Общая стоймость: " << overallprice << endl;
-						Object->setquantity(tempquantity - buy_quant[buy_counter]);
-					}
-					else
-					{
-						throw exception("Недостаточно товара на складе");
-					}
-				}
-				catch (exception ex)
-				{
-					PrintLine();
-					cout << ex.what() << endl;
-					buy_counter--;
-				}
-
-				buy_counter++;
-
-				if (checkbuy == true)
-				{
-					bool cc = true;
-					while (cc)
-					{
-						PrintLine();
-						cout << "Продолжить покупки? (Y/N)" << endl;
-						char buy_continue = '0';
-						cin >> buy_continue;
-						cin.ignore();
-						if (buy_continue == 'Y' || buy_continue == 'y')
-						{
-							cc = false;
-							break;
-						}
-						else if (buy_continue == 'N' || buy_continue == 'n')
-						{
-							cc = false;
-							checkbuy = false;
-							break;
-						}
-						else
-						{
-							cout << "Введено неверное значение " << endl;
-						}
-						continue;
-					}
-				}
-			}
-			if (checkbuy == false)
-			{
-				try
-				{
-					system("cls");
-					cout << "Итого: " << endl;
-					for (int i = 0; i < buy_counter; i++)
-					{
-						cout << "-------------------------------------------------------------------" << endl;
-						Object = MC(buy_ID[i]);
-						cout << "ID: " << Object->getID()<< "\tНаименование: " << Object->getname() << "\t"<< Object->getprice() <<"x" << buy_quant[i] << endl;;
-					}
-					cout << "-------------------------------------------------------------------" << endl;
-					cout << "Общая сумма: " << overallprice << endl;
 					check_pause = true;
 					break;
-				}
-				catch (exception ex)
-				{
-					cout << ex.what() << endl;
-					check_pause = true;
-					continue;
 				}
 			}
 			else
 			{
-				check_pause = true;
-				break;
+			system("cls");
+			PrintLine();
+			cout << "Пусто\n";
+			PrintLine();
+			check_pause = true;
 			}
+			break;
 		}
 		case 0:
 		{
@@ -279,7 +313,7 @@ int main()
 	}
 	//MC.pop_back();
 
-	cout << endl << "return 0" << endl;
+	cout << endl << "return 0;" << endl;
 	return 0;
 }
 
