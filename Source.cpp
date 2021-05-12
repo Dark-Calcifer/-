@@ -12,6 +12,8 @@
 using namespace std;
 
 bool IsItInt(char const* A1);
+bool true_cin(int& num);
+void PrintLine();
 
 int main()
 {
@@ -40,44 +42,26 @@ int main()
 		cout << "5) Выбрать товар " << endl;
 		cout << "0) Выход\n";
 		//cin >> choose;
-		char A1[100] = "\0";
-		cin.getline(A1, 100);
-		try
-		{
-			if (IsItInt(A1))
-			{
-				choose = atoi(A1);
-			}
-			else
-			{
-				throw exception("Введенное значение не является числом");
-				break;
-			}
-		}
-		catch (exception ex)
-		{
-			cout << ex.what() << endl;
-			check_pause = true;
-			break;
-		}
-
+		if (!true_cin(choose)) { check_pause = true; continue; }
 		switch (choose)
 		{
 		case 1:
 		{
 			system("cls");
-			const char A1[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
-			const char A2[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
-			const char A3[] = { char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 10) + 48), '\0' };
-			int count1 = rand() % 100;
-			int count2 = rand() % 100;
-			int count3 = rand() % 100;
-			Storage* storage = new Storage(A1, A2, A3, count1, count2, count3);
-			MC.push_back(storage);
-			cout << "-------------------------------------------------------------------" << endl;
-			cout << "Добавлено" << endl;
-			cout << "-------------------------------------------------------------------" << endl;
-			check_pause = true;
+			{
+				const char A1[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
+				const char A2[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
+				const char A3[] = { char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 10) + 48), '\0' };
+				int count1 = rand() % 100;
+				int count2 = rand() % 100;
+				int count3 = rand() % 100;
+				Storage* storage = new Storage(A1, A2, A3, count1, count2, count3);
+				MC.push_back(storage);
+				PrintLine();
+				cout << "Добавлено" << endl;
+				PrintLine();
+				check_pause = true;
+			}
 			break;
 		}
 		case 2:
@@ -87,7 +71,7 @@ int main()
 			{
 				try
 				{
-					cout << "-------------------------------------------------------------------" << endl;
+					PrintLine();
 					MC[i]->ShowInfo();
 				}
 				catch (exception ex)
@@ -97,7 +81,7 @@ int main()
 					break;
 				}
 			}
-			cout << "-------------------------------------------------------------------" << endl;
+			PrintLine();
 			check_pause = true;
 			break;
 		}
@@ -105,47 +89,52 @@ int main()
 		{
 			system("cls");
 			MC.pop_back();
-			cout << "-------------------------------------------------------------------" << endl;
+			PrintLine();
 			cout << "Последний в списке товар был удален. " << endl;
-			cout << "-------------------------------------------------------------------" << endl;
+			PrintLine();
 			check_pause = true;
 			break;
 		}
 		case 4:
 		{
-			system("cls");
-			cout << "1) По наименованию" << endl;
-			cout << "2) По категории" << endl;
-			cout << "3) По дате поступления" << endl;
-			cout << "4) По кол-ву" << endl;
-			cout << "5) По цене" << endl;
-			cout << "6) По надбавке" << endl;
-
-			int typeofsort = 0;
-			//cin >> typeofsort;
-			char A1[100] = "\0";
-			cin.getline(A1, 100);
-			try
+			if(MC.size()!=0)
 			{
-				if (IsItInt(A1))
+				system("cls");
+				cout << "1) По наименованию" << endl;
+				cout << "2) По категории" << endl;
+				cout << "3) По дате поступления" << endl;
+				cout << "4) По кол-ву" << endl;
+				cout << "5) По цене" << endl;
+				cout << "6) По надбавке" << endl << endl;
+
+				int typeofsort = 0;
+				//cin >> typeofsort;
+				if (!true_cin(typeofsort)) { check_pause = true; continue; }
+				// СЮДА проверку на [1;6]
+				if (typeofsort > 6 || typeofsort < 0)
 				{
-					typeofsort = atoi(A1);
+					cout << "Пункта с таким номером нет, попробуйте еще раз" << endl << endl;
+					check_pause = true;
+					continue;
 				}
 				else
 				{
-					throw exception("Введенное значение не является числом");
-					break;
+					MC.sort(typeofsort);
+					system("cls");
+					PrintLine();
+					cout << "Отсортировано. " << endl;
+					PrintLine();
+					check_pause = true;
 				}
 			}
-			catch (exception ex)
+			else
 			{
-				cout << ex.what() << endl;
+				system("cls");
+				PrintLine();
+				cout << "Нечего сортировать\n";
+				PrintLine();
 				check_pause = true;
-				break;
 			}
-
-			MC.sort(typeofsort);
-			check_pause = true;
 			break;
 		}
 		case 5:
@@ -155,7 +144,7 @@ int main()
 			int buy_ID[100];
 			int buy_quant[100];
 			int overallprice = 0;
-			auto Object = MC[0];
+			Storage* Object;
 			while (checkbuy)
 			{
 				if (check_pause)
@@ -170,7 +159,7 @@ int main()
 				{
 					try
 					{
-						cout << "-------------------------------------------------------------------" << endl;
+						PrintLine();
 						MC[i]->ShowInfo();
 					}
 					catch (exception ex)
@@ -182,13 +171,17 @@ int main()
 				}
 				try
 				{
-					cout << "-------------------------------------------------------------------" << endl;
+					PrintLine();
 					cout << "Введите ID товара: " << endl;
-					cin >> buy_ID[buy_counter];
+					//cin >> buy_ID[buy_counter];
+					if (!true_cin(buy_ID[buy_counter])) { check_pause = true; continue; }
 					Object = MC(buy_ID[buy_counter]);
 					system("cls");
+
 					cout << "Введите колличество (Всего: " << Object->getquantity() << " ):" << endl;
-					cin >> buy_quant[buy_counter];
+					//cin >> buy_quant[buy_counter];
+					if (!true_cin(buy_quant[buy_counter])) { check_pause = true; continue; }
+
 					//проверка на кол-во
 					int tempquantity = Object->getquantity();
 					if (tempquantity >= buy_quant[buy_counter])
@@ -207,42 +200,47 @@ int main()
 				}
 				catch (exception ex)
 				{
+					PrintLine();
 					cout << ex.what() << endl;
-					cout << "Продолжить покупки?" << endl;
-					cout << "1) Да" << endl;
-					cout << "2) Нет" << endl;
-					int extemp = 0;
-					cin >> extemp;
-					if (extemp == 2)
-					{
-						continue;
-					}
-					else if (extemp == 1)
-					{
-						continue;
-					}
+					buy_counter--;
 				}
+
 				buy_counter++;
-				cout << "Продолжить покупки?" << endl;
-				cout << "1) Да" << endl;
-				cout << "2) Нет" << endl;
-				int buy_continue = 0;
-				cin >> buy_continue;
-				if (buy_continue == 2)
+
+				if (checkbuy == true)
 				{
-					checkbuy = false;
-					continue;
+					bool cc = true;
+					while (cc)
+					{
+						PrintLine();
+						cout << "Продолжить покупки? (Y/N)" << endl;
+						char buy_continue = '0';
+						cin >> buy_continue;
+						cin.ignore();
+						if (buy_continue == 'Y' || buy_continue == 'y')
+						{
+							cc = false;
+							break;
+						}
+						else if (buy_continue == 'N' || buy_continue == 'n')
+						{
+							cc = false;
+							checkbuy = false;
+							break;
+						}
+						else
+						{
+							cout << "Введено неверное значение " << endl;
+						}
+						continue;
+					}
 				}
-				else if (buy_continue == 1)
-				{
-					continue;
-				}
-				continue;
 			}
 			if (checkbuy == false)
 			{
 				try
 				{
+					system("cls");
 					cout << "Итого: " << endl;
 					for (int i = 0; i < buy_counter; i++)
 					{
@@ -252,6 +250,7 @@ int main()
 					}
 					cout << "-------------------------------------------------------------------" << endl;
 					cout << "Общая сумма: " << overallprice << endl;
+					check_pause = true;
 					break;
 				}
 				catch (exception ex)
@@ -273,6 +272,8 @@ int main()
 			break;
 		}
 		default:
+			cout << endl << "Такого пункта нет, повторите ввод";
+			check_pause = true;
 			break;
 		}
 	}
@@ -285,4 +286,32 @@ int main()
 bool IsItInt(char const* A1)
 {
 	return regex_match(A1, regex("([0-9]*)"));
+}
+
+bool true_cin(int& num)
+{
+	char A1[100] = "\0";
+	cin.getline(A1, 100);
+	try
+	{
+		if (IsItInt(A1))
+		{
+			num = atoi(A1);
+			return true;
+		}
+		else
+		{
+			throw exception("Введенное значение не является числом");
+		}
+	}
+	catch (exception ex)
+	{
+		cout << ex.what() << endl;
+		return false;
+	}
+}
+
+void PrintLine()
+{
+	cout << "-------------------------------------------------------------------" << endl;
 }
