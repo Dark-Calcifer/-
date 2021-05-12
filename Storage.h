@@ -12,6 +12,7 @@ private:
 	int* quantity; // Кол-во 
 	int* price; // Цена
 	int* increase; // Надбавка
+	int ID;
 
 public:
 	Storage(); // Конструктор по умолчанию
@@ -37,6 +38,8 @@ public:
 	void setincrease(int* increase);
 	void setincrease(const int increase);
 
+	void setID(int id) { this->ID = id; }
+
 	char* getname() { return this->name; };
 	char* getcategory() { return this->category; };
 	char* getdata() { return this->data; };
@@ -44,12 +47,15 @@ public:
 	int getprice() { return *(this->price); };
 	int getincrease() { return *(this->increase); };
 
+	int getID() { return ID; };
+
 	bool checkdestr = true;
 
 	~Storage(); // Деструктор
 
 	void ShowInfo()
 	{
+		cout << "ID: " << ID << endl;
 		cout << "Наименование: " << name << endl;
 		cout << "Категория: " << category << endl;
 		cout << "Дата поступления: " << data << endl;

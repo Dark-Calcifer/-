@@ -6,6 +6,7 @@ class MyCase
 private:
 	T* arr;
 	int arrSize;
+	int counter = 0;
 
 public:
 	MyCase();
@@ -14,6 +15,7 @@ public:
 	void push_back(T data);
 	void pop_back();
 	T operator[] (int index);
+	T operator() (int index);
 	int size() { return this->arrSize; }
 
 	void sort(int choose);
@@ -39,6 +41,8 @@ inline MyCase<T>::~MyCase()
 template<typename T>
 inline void MyCase<T>::push_back(T data)
 {
+	counter++;
+	data->setID(counter);
 	arrSize++;
 	T* temp = new T[this->arrSize];
 	for (int i = 0; i < this->arrSize; i++)
@@ -81,6 +85,20 @@ inline T MyCase<T>::operator[](int index)
 	{
 		return this->arr[index];
 	}
+}
+
+template<typename T>
+inline T MyCase<T>::operator()(int index)
+{
+	for (int i = 0; i < arrSize; i++)
+	{
+		int tempID = (*arr[i]).getID();
+		if (tempID == index)
+		{
+			return this->arr[i];
+		}
+	}
+	throw exception("Такого ID нет");
 }
 
 template<typename T>
@@ -149,8 +167,8 @@ inline void MyCase<T>::sort(int choose)
 	}
 	case 4: // quantity
 	{
-		int temp3 = 0;
-		int temp4 = 0;
+		temp3 = 0;
+		temp4 = 0;
 		for (int i = 0; i < arrSize - 1; i++)
 		{
 			for (int j = 0; j < arrSize - 1; j++)
@@ -169,8 +187,8 @@ inline void MyCase<T>::sort(int choose)
 	}
 	case 5: // price
 	{
-		int temp3 = 0;
-		int temp4 = 0;
+		temp3 = 0;
+		temp4 = 0;
 		for (int i = 0; i < arrSize - 1; i++)
 		{
 			for (int j = 0; j < arrSize - 1; j++)
@@ -189,8 +207,8 @@ inline void MyCase<T>::sort(int choose)
 	}
 	case 6: // increase
 	{
-		int temp3 = 0;
-		int temp4 = 0;
+		temp3 = 0;
+		temp4 = 0;
 		for (int i = 0; i < arrSize - 1; i++)
 		{
 			for (int j = 0; j < arrSize - 1; j++)

@@ -8,6 +8,7 @@ Storage::Storage()
 	quantity = new int(0);
 	price = new int(0);
 	increase = new int(0);
+	ID = 0;
 }
 
 Storage::Storage(char* name, char* category, char* data, int quantity, int price, int increase)
@@ -18,6 +19,7 @@ Storage::Storage(char* name, char* category, char* data, int quantity, int price
 	setquantity(quantity);
 	setprice(price);
 	setincrease(increase);
+	ID = 0;
 }
 
 Storage::Storage(const char name[], const char category[], const char data[], const int quantity, const int price, const int increase)
@@ -28,6 +30,7 @@ Storage::Storage(const char name[], const char category[], const char data[], co
 	setquantity(quantity);
 	setprice(price);
 	setincrease(increase);
+	ID = 0;
 }
 
 Storage::Storage(const Storage& Object)
@@ -44,7 +47,7 @@ Storage::Storage(const Storage& Object)
 	this->quantity = new int(*Object.quantity);
 	this->price = new int(*Object.price);
 	this->increase = new int(*Object.increase);
-
+	this->ID = Object.ID;
 }
 
 
@@ -112,7 +115,6 @@ void Storage::setincrease(const int increase)
 {
 	this->increase = new int(increase);
 }
-
 
 Storage::~Storage()
 {
