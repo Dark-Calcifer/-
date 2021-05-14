@@ -324,8 +324,9 @@ bool IsItInt(char const* A1)
 
 bool true_cin(int& num)
 {
-	char A1[100] = "\0";
-	cin.getline(A1, 100);
+	char A1[1000] = "\0";
+	cin.getline(A1, 1000);
+	cin.clear();
 	try
 	{
 		if (A1[0] == '\0')
