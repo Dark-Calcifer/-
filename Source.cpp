@@ -1,9 +1,16 @@
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4996)
-#endif  // для работы классических функций ("НЕБЕЗОПАСНЫХ"!_s)
+#endif  // для работы классических функций ("НЕБЕЗОПАСНЫХ" _s)
+
+//12.	Справочник склада.Наименование товара, категория товара, количество, дата поступления, 
+//цена и процент торговой надбавки.Сортировка по всем параметрам.Составление фактуры : 
+//выбор нескольких товаров, количества(с уменьшением его на складе), 
+//подсчет общей суммы и торговой надбавки.
+//3. Расширяемый массив указателей на объекты.
 
 #include<iostream>
+#include <fstream>
 #include <Windows.h>
 #include "Storage.h"
 #include "MyCase.h"
@@ -25,6 +32,7 @@ int main()
 	int choose;
 	bool check = true;
 	bool check_pause = false;
+
 	while (check)
 	{
 		if (check_pause)
@@ -40,23 +48,31 @@ int main()
 		cout << "3) Удалить товар" << endl;
 		cout << "4) Отстортировать по параметрам " << endl;
 		cout << "5) Выбрать товар " << endl;
+		cout << "6) Добавить в двоичный файл " << endl;
+		cout << "7) Считать из двоичного файла " << endl;
+		cout << "8) Включение по номеру " << endl;
+		cout << "9) Проверка с типом int " << endl;
 		cout << "0) Выход\n";
 		//cin >> choose;
 		if (!true_cin(choose)) { check_pause = true; continue; }
 		switch (choose)
 		{
-		case 1:
+		case 1: // Добавить товар
 		{
 			system("cls");
 			{
 				const char A1[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
 				const char A2[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
-				const char A3[] = { char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 9) + 48), '.' ,char((rand() % 2) + 48),char((rand() % 10) + 48), '\0' };
+				const char A3[] = 
+				{ char((rand() % 2) + 48),char((rand() % 9) + 48),'.',
+				char((rand() % 2) + 48),char((rand() % 9) + 48), '.',
+				char((rand() % 2) + 48), char((rand() % 2) + 48), '\0' };
 				int count1 = rand() % 100;
 				int count2 = rand() % 100;
 				int count3 = rand() % 100;
 				Storage* storage = new Storage(A1, A2, A3, count1, count2, count3);
 				MC.push_back(storage);
+				storage->setID(MC.getcounter());
 				PrintLine();
 				cout << "Добавлено" << endl;
 				PrintLine();
@@ -64,7 +80,7 @@ int main()
 			}
 			break;
 		}
-		case 2:
+		case 2: // Вывести информацию о товарах
 		{
 			if (MC.size() != 0)
 			{
@@ -96,15 +112,54 @@ int main()
 			}
 			break;
 		}
-		case 3:
+		case 3: // Удалить товар
 		{
+			system("cls");
+			for (int i = 0; i < MC.size(); i++)
+			{
+				try
+				{
+					PrintLine();
+					MC[i]->ShowInfo();
+				}
+				catch (exception ex)
+				{
+					cout << ex.what() << endl;
+					check_pause = true;
+					continue;
+				}
+			}
+			PrintLine();
 			if (MC.size() != 0)
 			{
-				system("cls");
-				MC.pop_back();
-				PrintLine();
-				cout << "Последний в списке товар был удален. " << endl;
-				PrintLine();
+				cout << "Введите номер товара (0 - последний)\n";
+				int NumToDel;
+				if (!true_cin(NumToDel)) { check_pause = true; continue; }
+				if (NumToDel == 0)
+				{
+					system("cls");
+					MC.pop_back();
+					PrintLine();
+					cout << "Последний в списке товар был удален. " << endl;
+					PrintLine();
+				}
+				else
+				{
+					if (NumToDel > MC.size())
+					{
+						check_pause = true;
+						cout << "Товара с таким номером нет\n";
+						break;
+					}
+					else
+					{
+						system("cls");
+						MC.pop_back(NumToDel);
+						PrintLine();
+						cout << "Товар под номером " << NumToDel<< " был удален." << endl;
+						PrintLine();
+					}
+				}
 				check_pause = true;
 			}
 			else
@@ -117,7 +172,7 @@ int main()
 			}
 			break;
 		}
-		case 4:
+		case 4: // Отстортировать по параметрам
 		{
 			if(MC.size()!=0)
 			{
@@ -159,7 +214,7 @@ int main()
 			}
 			break;
 		}
-		case 5:
+		case 5: // Выбрать товар
 		{
 			if (MC.size() != 0)
 			{
@@ -300,6 +355,98 @@ int main()
 			}
 			break;
 		}
+		case 6: // Добавить в бинарный файл
+		{
+			if (MC.size() > 0)
+			{
+				for (int i = 0; i < MC.size(); i++)
+				{
+					MC[i]->AddToBinary(*MC[i]);
+				}
+				cout << "\nДобавлено\n";
+			}
+			else
+			{
+				cout << "\nНечего добавлять\n";
+			}
+			check_pause = true;
+			break;
+		}
+		case 7: // Загрузить из бинарного файла
+		{		
+			Storage Object;
+			Object.FromFile(Object);
+			check_pause = true;
+			break;
+		}
+		case 8: // Включение по номеру
+		{
+			system("cls");
+			for (int i = 0; i < MC.size(); i++)
+			{
+				try
+				{
+					PrintLine();
+					MC[i]->ShowInfo();
+				}
+				catch (exception ex)
+				{
+					cout << ex.what() << endl;
+					check_pause = true;
+					continue;
+				}
+			}
+			try
+			{
+				PrintLine();
+				cout << "Введите номер товара:\n";
+				int NumToInclude;
+				if (!true_cin(NumToInclude)) { check_pause = true; continue; }
+				Storage storage;
+				*(MC[NumToInclude - 1]) = storage;
+				system("cls");
+				PrintLine();
+				cout << "Новый товар был включен под номером " << NumToInclude << endl;
+				PrintLine();
+			}
+			catch (exception ex)
+			{
+				cout << ex.what() << endl;
+			}
+			check_pause = true;
+			break;
+		}
+		case 9: // Проверка типом int
+		{
+			system("cls");
+			MyCase<int> Mint;
+			try
+			{
+				int TEMP_ARR[10];
+				PrintLine();
+				cout << "Проверка с типом int: " << endl;
+				PrintLine();
+				for (int i = 0; i < 10; i++)
+				{
+					TEMP_ARR[i] = rand();
+					Mint.push_back(TEMP_ARR[i]);
+					cout << "Добавлено: " << Mint[i] << endl;
+				}
+				PrintLine();
+				for (int i = 10; i > 0; i--)
+				{
+					cout << Mint[i - 1];
+					Mint.pop_back();
+					cout << " Удалено." << endl;
+				}
+				PrintLine();
+
+				system("pause");
+				system("cls");
+			}
+			catch (exception ex) { break; }
+			break;
+		}
 		case 0:
 		{
 			check = false;
@@ -311,7 +458,7 @@ int main()
 			break;
 		}
 	}
-	//MC.pop_back();
+
 
 	cout << endl << "return 0;" << endl;
 	return 0;

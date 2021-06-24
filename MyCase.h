@@ -14,11 +14,13 @@ public:
 
 	void push_back(T data);
 	void pop_back();
+	void pop_back(int num);
 	T operator[] (int index);
 	T operator() (int index);
 	int size() { return this->arrSize; }
 
 	void sort(int choose);
+	int getcounter() { return this->counter; }
 };
 
 template<typename T>
@@ -31,10 +33,11 @@ inline MyCase<T>::MyCase()
 template<typename T>
 inline MyCase<T>::~MyCase()
 {
-	for (int i = 0; i < arrSize; i++)
-	{
-		arr[i]->~Storage();
-	}
+	//for (int i = 0; i < arrSize; i++)
+	//{
+	//	arr[i]->~Storage();
+	//}
+
 	delete[] this->arr;
 }
 
@@ -42,8 +45,8 @@ template<typename T>
 inline void MyCase<T>::push_back(T data)
 {
 	counter++;
-	data->setID(counter);
 	arrSize++;
+
 	T* temp = new T[this->arrSize];
 	for (int i = 0; i < this->arrSize; i++)
 	{
@@ -69,6 +72,27 @@ inline void MyCase<T>::pop_back()
 	for (int i = 0; i < arrSize; i++)
 	{
 		temp[i] = this->arr[i];
+	}
+	delete[] this->arr;
+	this->arr = temp;
+}
+
+template<typename T>
+inline void MyCase<T>::pop_back(int num)
+{
+	arrSize--;
+	T* temp = new T[this->arrSize];
+	bool checkdel = true;
+	for (int i = 0, j = 0; i < arrSize; i++, j++)
+	{
+		if (j == num - 1)
+		{
+			i--;
+		}
+		else
+		{
+			temp[i] = this->arr[j];
+		}
 	}
 	delete[] this->arr;
 	this->arr = temp;

@@ -116,10 +116,32 @@ void Storage::setincrease(const int increase)
 	this->increase = new int(increase);
 }
 
+void Storage::operator = (Storage& Object)
+{
+	name = new char[strlen(Object.name) + 1];
+	memcpy(this->name, Object.name, strlen(Object.name) + 1);
+
+	category = new char[strlen(Object.category) + 1];
+	memcpy(this->category, Object.category, strlen(Object.category) + 1);
+
+	data = new char[strlen(Object.data) + 1];
+	memcpy(this->data, Object.data, strlen(Object.data) + 1);
+
+	this->quantity = new int(*Object.quantity);
+	this->price = new int(*Object.price);
+	this->increase = new int(*Object.increase);
+	this->ID = Object.ID;
+}
+
 Storage::~Storage()
 {
 	if (checkdestr)
 	{
+#ifdef DEBUG
+		cout << "Сработал деструктор !!!" << endl;
+		system("pause");
+#endif // DEBUG
+
 		delete[] name;
 		delete[] category;
 		delete[] quantity;
@@ -129,4 +151,3 @@ Storage::~Storage()
 	}
 	checkdestr = true;
 }
-

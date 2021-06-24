@@ -1,6 +1,8 @@
 #pragma once
 
 #include<iostream>
+#include <fstream>
+#include <Windows.h>
 using namespace std;
 
 class Storage
@@ -49,6 +51,8 @@ public:
 
 	int getID() { return ID; };
 
+	void operator= (Storage& Object);
+
 	bool checkdestr = true;
 
 	~Storage(); // Деструктор
@@ -62,6 +66,46 @@ public:
 		cout << "Кол-во: " << *quantity << endl;
 		cout << "Цена: " << *price << endl;
 		cout << "Надбавка: " << *increase << endl;
+	}
+	void AddToBinary(Storage& Object)
+	{
+		ofstream emp_file;
+		emp_file.open("Storage.dat", ios::binary);
+		if (emp_file.is_open())
+		{
+		emp_file.write((char*)Object.name, sizeof(Object.name));
+		emp_file.write((char*)Object.category, sizeof(Object.category));
+		emp_file.write((char*)Object.data, 9);
+		emp_file.write((char*)Object.quantity, sizeof(Object.quantity));
+		emp_file.write((char*)Object.price, sizeof(Object.price));
+		emp_file.write((char*)Object.increase, sizeof(Object.increase));
+		emp_file.close();
+		}
+		else
+		{
+			cout << "Файл не был открыйт." << endl;
+		}
+	}
+
+	void FromFile(Storage& Object)
+	{
+		ifstream emp_file("Storage.dat");
+		if (emp_file.is_open())
+		{
+			emp_file.read((char*)Object.name, sizeof(Object.name));
+			emp_file.read((char*)Object.category, sizeof(Object.category));
+			emp_file.read((char*)(Object.data), 9);
+			emp_file.read((char*)Object.quantity, sizeof(Object.quantity));
+			emp_file.read((char*)Object.price, sizeof(Object.price));
+			emp_file.read((char*)Object.increase, sizeof(Object.increase));
+			emp_file.close();
+			Object.ShowInfo();
+			Object.checkdestr = false;
+		}
+		else
+		{
+			cout << "Файл не был открыйт." << endl;
+		}
 	}
 };
 
