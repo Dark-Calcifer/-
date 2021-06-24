@@ -20,6 +20,8 @@ public:
 	int size() { return this->arrSize; }
 
 	void sort(int choose);
+	T search(int search_ID);
+	T search(char* search_name);
 	int getcounter() { return this->counter; }
 };
 
@@ -259,5 +261,54 @@ inline void MyCase<T>::sort(int choose)
 
 
 
+}
+
+template<typename T>
+inline T MyCase<T>::search(int search_ID)
+{
+	if (arrSize == 0)
+	{
+		throw exception("Контейнер пуст.");
+	}
+	for (int i = 0; i < arrSize - 1; i++)
+	{
+		if ((*arr[i]).getID() == search_ID)
+		{
+			return arr[i];
+		}
+		else
+		{
+			if (i == arrSize - 1)
+			{
+				throw exception("Совпадений нет.");
+			}
+		}
+	}
+}
+
+template<typename T>
+inline T MyCase<T>::search(char* search_name)
+{
+	if (arrSize == 0)
+	{
+		throw exception("Контейнер пуст.");
+	}
+	for (int i = 0; i < arrSize; i++)
+	{
+		char* A = (*arr[i]).getname();
+		string A1 = (*arr[i]).getname();
+		string A2 = search_name;
+		if (A1 == A2)
+		{
+			return arr[i];
+		}
+		else
+		{
+			if (i == arrSize - 1)
+			{
+				throw exception("Совпадений нет.");
+			}
+		}
+	}
 }
 

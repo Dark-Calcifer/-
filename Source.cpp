@@ -13,7 +13,6 @@
 #include <fstream>
 #include <Windows.h>
 #include "Storage.h"
-#include "MyCase.h"
 #include <regex>
 
 using namespace std;
@@ -21,6 +20,8 @@ using namespace std;
 void PrintLine();
 bool IsItInt(char const* A1);
 bool true_cin(int& num);
+
+#include "MyCase.h"
 
 int main()
 {
@@ -52,6 +53,7 @@ int main()
 		cout << "7) Считать из двоичного файла " << endl;
 		cout << "8) Включение по номеру " << endl;
 		cout << "9) Проверка с типом int " << endl;
+		cout << "10) Поиск" << endl;
 		cout << "0) Выход\n";
 		//cin >> choose;
 		if (!true_cin(choose)) { check_pause = true; continue; }
@@ -445,6 +447,42 @@ int main()
 				system("cls");
 			}
 			catch (exception ex) { break; }
+			break;
+		}
+		case 10:
+		{
+			system("cls");
+			try
+			{
+				cout << "По какому критерию найти?" << endl;
+				int search_type;
+				cout << "1) Поиск по ID" << endl;
+				cout << "2) Поиск по названию" << endl;
+				if (!true_cin(search_type)) { check_pause = true; continue; }
+				if (search_type == 1)
+				{
+					cout << "Введите ID:" << endl;
+					int search_ID;
+					if (!true_cin(search_ID)) { check_pause = true; continue; }
+					PrintLine();
+					(*MC.search(search_ID)).ShowInfo();
+					PrintLine();
+				}
+				if (search_type == 2)
+				{
+					cout << "Введите название:" << endl;
+					char A[100] = "";
+					cin.getline(A, 100);
+					PrintLine();
+					(*MC.search(A)).ShowInfo();
+					PrintLine();
+				}
+			}
+			catch (exception ex)
+			{
+				cout << ex.what() << endl;
+			}
+			check_pause = true;
 			break;
 		}
 		case 0:
