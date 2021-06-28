@@ -14,7 +14,7 @@ public:
 
 	void push_back(T data);
 	void pop_back();
-	void pop_back(int num);
+	void pop(int num);
 	T operator[] (int index);
 	T operator() (int index);
 	int size() { return this->arrSize; }
@@ -80,7 +80,7 @@ inline void MyCase<T>::pop_back()
 }
 
 template<typename T>
-inline void MyCase<T>::pop_back(int num)
+inline void MyCase<T>::pop(int num)
 {
 	arrSize--;
 	T* temp = new T[this->arrSize];

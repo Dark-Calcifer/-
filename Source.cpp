@@ -14,6 +14,7 @@
 #include <Windows.h>
 #include "Storage.h"
 #include <regex>
+#include <ctime>
 
 using namespace std;
 
@@ -65,7 +66,7 @@ int main()
 			{
 				const char A1[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
 				const char A2[] = { char((rand() % 25) + 65), char((rand() % 25) + 65),char((rand() % 25) + 65), '\0' };
-				const char A3[] = 
+				const char A3[] =
 				{ char((rand() % 2) + 48),char((rand() % 9) + 48),'.',
 				char((rand() % 2) + 48),char((rand() % 9) + 48), '.',
 				char((rand() % 2) + 48), char((rand() % 2) + 48), '\0' };
@@ -78,31 +79,31 @@ int main()
 				PrintLine();
 				cout << "Добавлено" << endl;
 				PrintLine();
-				check_pause = true;
 			}
+			check_pause = true;
 			break;
 		}
 		case 2: // Вывести информацию о товарах
 		{
 			if (MC.size() != 0)
 			{
-			system("cls");
-			for (int i = 0; i < MC.size(); i++)
-			{
-				try
+				system("cls");
+				for (int i = 0; i < MC.size(); i++)
 				{
-					PrintLine();
-					MC[i]->ShowInfo();
+					try
+					{
+						PrintLine();
+						MC[i]->ShowInfo();
+					}
+					catch (exception ex)
+					{
+						cout << ex.what() << endl;
+						check_pause = true;
+						break;
+					}
 				}
-				catch (exception ex)
-				{
-					cout << ex.what() << endl;
-					check_pause = true;
-					break;
-				}
-			}
-			PrintLine();
-			check_pause = true;
+				PrintLine();
+				check_pause = true;
 			}
 			else
 			{
@@ -156,9 +157,9 @@ int main()
 					else
 					{
 						system("cls");
-						MC.pop_back(NumToDel);
+						MC.pop(NumToDel);
 						PrintLine();
-						cout << "Товар под номером " << NumToDel<< " был удален." << endl;
+						cout << "Товар под номером " << NumToDel << " был удален." << endl;
 						PrintLine();
 					}
 				}
@@ -176,7 +177,7 @@ int main()
 		}
 		case 4: // Отстортировать по параметрам
 		{
-			if(MC.size()!=0)
+			if (MC.size() != 0)
 			{
 				system("cls");
 				cout << "1) По наименованию" << endl;
@@ -198,10 +199,11 @@ int main()
 				}
 				else
 				{
+
 					MC.sort(typeofsort);
 					system("cls");
 					PrintLine();
-					cout << "Отсортировано. " << endl;
+					cout << "Отсортировано " << endl;
 					PrintLine();
 					check_pause = true;
 				}
@@ -349,11 +351,11 @@ int main()
 			}
 			else
 			{
-			system("cls");
-			PrintLine();
-			cout << "Пусто\n";
-			PrintLine();
-			check_pause = true;
+				system("cls");
+				PrintLine();
+				cout << "Пусто\n";
+				PrintLine();
+				check_pause = true;
 			}
 			break;
 		}
@@ -375,7 +377,7 @@ int main()
 			break;
 		}
 		case 7: // Загрузить из бинарного файла
-		{		
+		{
 			Storage Object;
 			Object.FromFile(Object);
 			check_pause = true;
